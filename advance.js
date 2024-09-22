@@ -682,6 +682,8 @@ function initOutputMapping() {
 function initBlueRetroCfg() {
     initInputSelect();
     initLabelSelect();
+    initFirstOutputMapping();
+    initOutputMapping();
     nbMapping = 1;
 }
 
