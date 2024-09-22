@@ -1,11 +1,16 @@
-import { brUuid } from "../utils/constants.js";
+import { brUuid, cfg_cmd_get_bdaddr } from "../utils/constants.js";
 
 export const getBdAddr = (service) => {
   return new Promise((resolve, reject) => {
     service
-      .getCharacteristic(brUuid[12])
+      .getCharacteristic(brUuid[2])
       .then((chrc) => {
-        return chrc.readValue();
+        cmd_chrc = chrc;
+        cmd[0] = cfg_cmd_get_bdaddr;
+        return cmd_chrc.writeValue(cmd);
+      })
+      .then((_) => {
+        return cmd_chrc.readValue();
       })
       .then((value) => {
         let bdaddr = value.getUint8(5).toString(16).padStart(2, '0') + ':'

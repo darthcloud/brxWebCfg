@@ -5,7 +5,7 @@ export const getStringCmd = (service, command) => {
     var cmd = new Uint8Array(1);
     var cmd_chrc;
     service
-      .getCharacteristic(brUuid[7])
+      .getCharacteristic(brUuid[2])
       .then((chrc) => {
         cmd_chrc = chrc;
         cmd[0] = command;

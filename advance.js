@@ -778,10 +778,10 @@ function readInputCfg(cfgId, cfg) {
     return new Promise(function(resolve, reject) {
         let ctrl_chrc = null;
         let data_chrc = null;
-        brService.getCharacteristic(brUuid[4])
+        brService.getCharacteristic(brUuid[0])
         .then(chrc => {
             ctrl_chrc = chrc;
-            return brService.getCharacteristic(brUuid[5])
+            return brService.getCharacteristic(brUuid[1])
         })
         .then(chrc => {
             var inputCtrl = new Uint16Array(2);
@@ -944,10 +944,10 @@ function writeInputCfg(cfgId, cfg) {
     return new Promise(function(resolve, reject) {
         let ctrl_chrc = null;
         let data_chrc = null;
-        brService.getCharacteristic(brUuid[4])
+        brService.getCharacteristic(brUuid[0])
         .then(chrc => {
             ctrl_chrc = chrc;
-            return brService.getCharacteristic(brUuid[5])
+            return brService.getCharacteristic(brUuid[1])
         })
         .then(chrc => {
             var inputCtrl = new Uint16Array(2);
