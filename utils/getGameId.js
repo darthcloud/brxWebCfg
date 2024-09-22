@@ -5,7 +5,7 @@ export const getGameId = (service) => {
     var cmd = new Uint8Array(1);
     var cmd_chrc;
     service
-      .getCharacteristic(brUuid[7])
+      .getCharacteristic(brUuid[3])
       .then((chrc) => {
         cmd_chrc = chrc;
         cmd[0] = cfg_cmd_get_gameid;

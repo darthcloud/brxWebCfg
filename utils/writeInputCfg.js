@@ -6,10 +6,10 @@ export const writeInputCfg = (cfgId, cfg, brService) => {
       let ctrl_chrc = null;
       let data_chrc = null;
       brService
-        .getCharacteristic(brUuid[4])
+        .getCharacteristic(brUuid[1])
         .then((chrc) => {
           ctrl_chrc = chrc;
-          return brService.getCharacteristic(brUuid[5]);
+          return brService.getCharacteristic(brUuid[2]);
         })
         .then((chrc) => {
           var inputCtrl = new Uint16Array(2);
