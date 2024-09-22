@@ -1095,7 +1095,7 @@ function initCfgSelection() {
 export function btConn() {
     log('Requesting Bluetooth Device...');
     navigator.bluetooth.requestDevice(
-        {filters: [{namePrefix: 'BlueRetro'}],
+        {filters: [{namePrefix: 'BRX'}],
         optionalServices: [brUuid[0]]})
     .then(device => {
         log('Connecting to GATT Server...');
