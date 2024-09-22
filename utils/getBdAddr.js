@@ -2,6 +2,8 @@ import { brUuid, cfg_cmd_get_bdaddr } from "../utils/constants.js";
 
 export const getBdAddr = (service) => {
   return new Promise((resolve, reject) => {
+    var cmd = new Uint8Array(1);
+    var cmd_chrc;
     service
       .getCharacteristic(brUuid[2])
       .then((chrc) => {

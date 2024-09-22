@@ -3,6 +3,8 @@ import { brUuid, cfg_cmd_get_fw_ver } from "../utils/constants.js";
 
 export const getAppVersion = (service) => {
   return new Promise((resolve, reject) => {
+    var cmd = new Uint8Array(1);
+    var cmd_chrc;
     service
       .getCharacteristic(brUuid[2])
       .then((chrc) => {
