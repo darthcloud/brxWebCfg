@@ -680,14 +680,8 @@ function initOutputMapping() {
 }
 
 function initBlueRetroCfg() {
-    initGlobalCfg();
-    initOutputSelect();
-    initOutputMode();
     initInputSelect();
     initLabelSelect();
-    initFirstOutputMapping();
-    initOutputMapping();
-    initCfgSelection();
     nbMapping = 1;
 }
 
@@ -1114,30 +1108,37 @@ export function btConn() {
     })
     .then(service => {
         brService = service;
+        log('API');
         return getApiVersion(brService);
     })
     .then(value => {
         apiVersion = value;
+        log('BDADDR');
         return getBdAddr(brService);
     })
     .then(value => {
         bdaddr = value;
+        log('Release');
         return getLatestRelease();
     })
     .then(value => {
         latest_ver = value;
+        log('Version');
         return getAppVersion(brService);
     })
     .then(value => {
         app_ver = value;
+        log('GameID');
         return getGameId(brService);
     })
     .then(value => {
         gameid = value;
+        log('GameName');
         return getGameName(gameid);
     })
     .then(value => {
         gamename = value;
+        log('CfgScr');
         return getCfgSrc(brService);
     })
     .catch(error => {
