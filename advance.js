@@ -1152,12 +1152,6 @@ export function btConn() {
         log("ABI version: " + apiVersion);
         log('Init Cfg DOM...');
         initBlueRetroCfg();
-        return loadGlobalCfg();
-    })
-    .then(() => {
-        return loadOutputCfg(0);
-    })
-    .then(() => {
         return loadInputCfg(0);
     })
     .then(() => {
