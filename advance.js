@@ -31,239 +31,6 @@ var gameid = '';
 var gamename = '';
 var current_cfg = 0;
 
-function initGlobalCfg() {
-    var divGlobalCfg = document.getElementById("divGlobalCfg");
-
-    divGlobalCfg.innerHTML = '';
-
-    let header = document.createElement("h2");
-    header.style.margin = 0;
-    header.innerText = 'Global Config';
-
-    divGlobalCfg.appendChild(header);
-
-    divGlobalCfg.innerHTML += '<a href="https://github.com/darthcloud/BlueRetro/wiki/BlueRetro-BLE-Web-Config-User-Manual#22---global-config" target="_blank">Wiki doc for Global config</a><br><br>'
-
-    var div = document.createElement("div");
-
-    /* System */
-    var label = document.createElement("label");
-    label.innerText = 'System: ';
-    label.setAttribute("for", "systemCfg");
-
-    var sel = document.createElement("select");
-    for (var i = 0; i < systemCfg.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = systemCfg[i];
-        sel.add(option);
-    }
-    sel.id = "systemCfg";
-    div.appendChild(label);
-    div.appendChild(sel);
-
-    divGlobalCfg.appendChild(div);
-
-    div = document.createElement("div");
-
-    /* Multitap */
-    label = document.createElement("label");
-    label.innerText = 'Multitap: ';
-    label.setAttribute("for", "multitapCfg");
-
-    sel = document.createElement("select");
-    for (var i = 0; i < multitapCfg.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = multitapCfg[i];
-        sel.add(option);
-    }
-    sel.id = "multitapCfg";
-    div.appendChild(label);
-    div.appendChild(sel);
-
-    divGlobalCfg.appendChild(div);
-
-    if (apiVersion > 0) {
-        div = document.createElement("div");
-
-        /* Inquiry mode */
-        label = document.createElement("label");
-        label.innerText = 'Inquiry mode: ';
-        label.setAttribute("for", "inquiryMode");
-
-        sel = document.createElement("select");
-        for (var i = 0; i < inquiryMode.length; i++) {
-            var option  = document.createElement("option");
-            option.value = i;
-            option.text = inquiryMode[i];
-            sel.add(option);
-        }
-        sel.id = "inquiryMode";
-        div.appendChild(label);
-        div.appendChild(sel);
-
-        divGlobalCfg.appendChild(div);
-    }
-
-    if (apiVersion > 1) {
-        div = document.createElement("div");
-
-        /* Banksel */
-        label = document.createElement("label");
-        label.innerText = 'Memory Card Bank: ';
-        label.setAttribute("for", "banksel");
-
-        sel = document.createElement("select");
-        for (var i = 0; i < 4; i++) {
-            var option  = document.createElement("option");
-            option.value = i;
-            option.text = 'Bank ' + eval(i + 1);
-            sel.add(option);
-        }
-        sel.id = "banksel";
-        div.appendChild(label);
-        div.appendChild(sel);
-
-        divGlobalCfg.appendChild(div);
-    }
-
-    div = document.createElement("div");
-
-    var btn = document.createElement("button");
-    btn.id = "globalSave";
-    btn.innerText = 'Save';
-    btn.addEventListener("click", saveGlobal);
-    div.appendChild(btn);
-    div.setAttribute("style", "margin-top:1em;");
-
-    divGlobalCfg.appendChild(div);
-
-    div = document.createElement("div");
-    div.id = "globalSaveText";
-    div.setAttribute("style", "display:none;margin-top:1em;");
-    var p = document.createElement("p");
-    p.setAttribute("style", "font-style:italic;font-size:small;color:red;");
-    p.innerText = "Config saved, power cycle BlueRetro adapter for change to take effect.";
-
-    div.appendChild(p);
-    divGlobalCfg.appendChild(div);
-}
-
-function initOutputSelect() {
-    var divOutputCfg = document.getElementById("divOutputCfg");
-
-    divOutputCfg.innerHTML = '';
-
-    let header = document.createElement("h2");
-    header.style.margin = 0;
-    header.innerText = 'Output Config';
-
-    divOutputCfg.appendChild(header);
-
-    divOutputCfg.innerHTML += '<a href="https://github.com/darthcloud/BlueRetro/wiki/BlueRetro-BLE-Web-Config-User-Manual#23---output-config" target="_blank">Wiki doc for Output config</a><br><br>'
-
-    var div = document.createElement("div");
-
-    /* Output select */
-    var label = document.createElement("label");
-    label.innerText = 'Select output: ';
-    label.setAttribute("for", "outputSelect");
-
-    var main = document.createElement("select");
-    for (var i = 0; i < maxOutput; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = "Output " + (i + 1);
-        main.add(option);
-    }
-    main.id = "outputSelect";
-    main.addEventListener("change", selectOutput);
-    div.appendChild(label);
-    div.appendChild(main);
-
-    divOutputCfg.appendChild(div);
-}
-
-function initOutputMode() {
-    var div = document.createElement("div");
-    div.setAttribute("style", "margin-top:1em;");
-
-    /* Output mode */
-    var span = document.createElement("span");
-    span.setAttribute("style", "display:inline-block;");
-    var label = document.createElement("label");
-    label.innerText = 'Mode';
-    label.setAttribute("for", "outputMode");
-    label.setAttribute("style", "display:block;");
-
-    var main = document.createElement("select");
-    for (var i = 0; i < devCfg.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = devCfg[i];
-        main.add(option);
-    }
-    main.id = "outputMode";
-    span.appendChild(label);
-    span.appendChild(main);
-    div.appendChild(span);
-
-    /* Output acessories */
-    span = document.createElement("span");
-    span.setAttribute("style", "display:inline-block;");
-    label = document.createElement("label");
-    label.innerText = 'Accessories';
-    label.setAttribute("for", "outputAcc");
-    label.setAttribute("style", "display:block;");
-
-    main = document.createElement("select");
-    for (var i = 0; i < accCfg.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = accCfg[i];
-        main.add(option);
-    }
-    main.id = "outputAcc";
-    span.appendChild(label);
-    span.appendChild(main);
-    div.appendChild(span);
-
-    var divOutputCfg = document.getElementById("divOutputCfg");
-    divOutputCfg.appendChild(div);
-
-    div = document.createElement("div");
-
-    var btn = document.createElement("button");
-    btn.id = "outputSave";
-    btn.innerText = 'Save';
-    btn.addEventListener("click", saveOutput);
-    div.appendChild(btn);
-    div.setAttribute("style", "margin-top:1em;");
-
-    divOutputCfg.appendChild(div);
-
-    div = document.createElement("div");
-    div.id = "outputSaveText";
-    div.setAttribute("style", "display:none;margin-top:1em;");
-    var p = document.createElement("p");
-    p.setAttribute("style", "font-style:italic;font-size:small;color:red;");
-    p.innerText = "Config saved, power cycle BlueRetro adapter for Mode change to take effect.";
-
-    div.appendChild(p);
-    divOutputCfg.appendChild(div);
-
-    div = document.createElement("div");
-    div.id = "outputSaveMouse";
-    div.setAttribute("style", "display:none;margin-top:1em;");
-    var p = document.createElement("p");
-    p.setAttribute("style", "font-style:italic;font-size:small;color:orange;");
-    p.innerText = "Mouse mode require setting <Default Mouse> preset.";
-
-    div.appendChild(p);
-    divOutputCfg.appendChild(div);
-}
-
 function initInputSelect() {
     var divInputCfg = document.getElementById("divInputCfg");
 
@@ -275,18 +42,16 @@ function initInputSelect() {
 
     divInputCfg.appendChild(header);
 
-    divInputCfg.innerHTML += '<a href="https://github.com/darthcloud/BlueRetro/wiki/BlueRetro-BLE-Web-Config-User-Manual#24---mapping-config" target="_blank">Wiki doc for Mapping config</a><br><br>'
-
     var div = document.createElement("div");
     div.setAttribute("style", "margin-bottom:1em;");
 
     /* Input select */
     var label = document.createElement("label");
-    label.innerText = 'Select Bluetooth device: ';
+    label.innerText = 'Select custom mapping bank: ';
     label.setAttribute("for", "inputSelect");
 
     var main = document.createElement("select");
-    for (var i = 0; i < maxMainInput; i++) {
+    for (var i = 0; i < 4; i++) {
         var option  = document.createElement("option");
         option.value = i;
         option.text = "Device " + (i + 1);
@@ -852,61 +617,6 @@ function loadInputCfg(cfgId) {
     });
 }
 
-function saveGlobal() {
-    document.getElementById("globalSaveText").style.display = 'none';
-    if (apiVersion > 1) {
-        var data = new Uint8Array(4);
-    }
-    else if (apiVersion > 0) {
-        var data = new Uint8Array(3);
-    }
-    else {
-        var data = new Uint8Array(2);
-    }
-    data[0] = document.getElementById("systemCfg").value;
-    data[1] = document.getElementById("multitapCfg").value;
-    if (apiVersion > 0) {
-        data[2] = document.getElementById("inquiryMode").value;
-    }
-    if (apiVersion > 1) {
-        data[3] = document.getElementById("banksel").value;
-    }
-    return new Promise(function(resolve, reject) {
-        saveGlobalCfg(brService, data)
-        .then(_ => {
-            document.getElementById("globalSaveText").style.display = 'block';
-            log('Global Config saved');
-            resolve();
-        })
-        .catch(error => {
-            reject(error);
-        });
-    });
-}
-
-function saveOutput() {
-    document.getElementById("outputSaveText").style.display = 'none';
-    document.getElementById("outputSaveMouse").style.display = 'none';
-    var data = new Uint8Array(2);
-    data[0] = document.getElementById("outputMode").value;
-    data[1] = document.getElementById("outputAcc").value;
-    var cfgId = document.getElementById("outputSelect").value;
-    return new Promise(function(resolve, reject) {
-        saveOutputCfg(brService, data, cfgId)
-        .then(_ => {
-            document.getElementById("outputSaveText").style.display = 'block';
-            if (data[0] == 3) {
-                document.getElementById("outputSaveMouse").style.display = 'block';
-            }
-            log('Output ' + cfgId + ' Config saved');
-            resolve();
-        })
-        .catch(error => {
-            reject(error);
-        });
-    });
-}
-
 function writeWriteRecursive(cfg, inputCtrl, ctrl_chrc, data_chrc) {
     return new Promise(function(resolve, reject) {
         log('Set Input Ctrl CHRC... ' + inputCtrl[1]);
@@ -1053,41 +763,6 @@ function swDefaultCfg() {
     })
 }
 
-function initCfgSelection() {
-    let divCfgSel = document.getElementById("divCfgSel");
-    let cfgSw = document.createElement("div");
-    let cfgBtn = document.createElement("button");
-
-    divCfgSel.innerHTML = '';
-
-    let header = document.createElement("h2");
-    header.style.margin = 0;
-    header.innerText = 'Config Selection';
-
-    divCfgSel.appendChild(header);
-
-    divCfgSel.innerHTML += '<a href="https://github.com/darthcloud/BlueRetro/wiki/BlueRetro-BLE-Web-Config-User-Manual#21---config-selection" target="_blank">Wiki doc for Config Selection</a><br><br>'
-
-    cfgBtn.id = "cfgSw";
-
-    if (current_cfg == 0) {
-        cfgBtn.innerText += 'Switch to GameID';
-        cfgBtn.addEventListener("click", swGameIdCfg);
-        divCfgSel.innerHTML += 'Current config: Global';
-        if (gameid.length) {
-            cfgSw.appendChild(cfgBtn);
-        }
-    }
-    else {
-        cfgBtn.innerText = 'Switch to Global';
-        cfgBtn.addEventListener("click", swDefaultCfg);
-        divCfgSel.innerHTML += 'Current config: GameID';
-        cfgSw.appendChild(cfgBtn);
-    }
-    cfgSw.setAttribute("style", "margin-top:1em;");
-    divCfgSel.append(cfgSw);
-}
-
 export function btConn() {
     log('Requesting Bluetooth Device...');
     navigator.bluetooth.requestDevice(
@@ -1158,16 +833,7 @@ export function btConn() {
         return loadInputCfg(0);
     })
     .then(() => {
-        document.getElementById("divInfo").innerHTML = 'Connected to: ' + name + ' (' + bdaddr + ') [' + app_ver
-            + ']<br> Current Game: ' + gamename + ' (' + gameid + ')';
-        try {
-            if (app_ver.indexOf(latest_ver) == -1) {
-                document.getElementById("divInfo").innerHTML += '<br><br>Download latest FW ' + latest_ver + ' from <a href=\'https://darthcloud.itch.io/blueretro\' target=\'_blank\'>itch.io</a>';
-            }
-        }
-        catch (e) {
-            // Just move on
-        }
+        document.getElementById("divInfo").innerHTML = 'Connected to: ' + name + ' (' + bdaddr + ') [' + app_ver + ']';
         document.getElementById("divBtConn").style.display = 'none';
         //document.getElementById("divBtDisconn").style.display = 'block';
         document.getElementById("divInfo").style.display = 'block';
@@ -1200,10 +866,6 @@ function addInput() {
 function delInput() {
     this.parentNode.remove();
     nbMapping--;
-}
-
-function selectOutput() {
-    loadOutputCfg(this.value);
 }
 
 function selectInput() {
