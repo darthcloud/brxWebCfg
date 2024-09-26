@@ -776,12 +776,12 @@ export function btConn() {
         return bluetoothDevice.gatt.connect();
     })
     .then(server => {
-        log('Getting BlueRetro Service...');
+        log('Getting BRX Service...');
         return server.getPrimaryService(brUuid[0]);
     })
     .catch(error => {
         log(error.name);
-        throw 'Couldn\'t connect to BlueRetro';
+        throw 'Couldn\'t connect to BRX, try again it may take a few tries!';
     })
     .then(service => {
         brService = service;
@@ -843,7 +843,7 @@ export function btConn() {
         document.getElementById("divInputCfg").style.display = 'block';
     })
     .catch(error => {
-        log('Argh! ' + error);
+        log('Couldn\'t connect to BRX, try again it may take a few tries! err:' + error);
     });
 }
 
