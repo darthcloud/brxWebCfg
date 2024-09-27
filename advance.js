@@ -141,7 +141,7 @@ function initFirstOutputMapping() {
         var option  = document.createElement("option");
         option.value = i;
         option.text = btnList[i][destLabel];
-        src.add(option);
+        dest.add(option);
     }
     dest.setAttribute("class", "dest");
     span.appendChild(label);
