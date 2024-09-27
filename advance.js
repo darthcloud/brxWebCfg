@@ -1,10 +1,6 @@
-import { brUuid, labelName, btnList, systemCfg,
-    multitapCfg, inquiryMode, devCfg, accCfg, turboMask,
-    scaling, diagScaling, maxMainInput, maxOutput,
-    maxMax, maxThres }
+import { brUuid, labelName, btnList, turboMask,
+    scaling, diagScaling, maxOutput, maxMax, maxThres }
     from './utils/constants.js';
-import { saveGlobalCfg } from './utils/saveGlobalCfg.js'
-import { saveOutputCfg } from './utils/saveOutputCfg.js'
 import { getLatestRelease } from './utils/getLatestRelease.js';
 import { getAppVersion } from './utils/getAppVersion.js';
 import { getBdAddr } from './utils/getBdAddr.js';
@@ -12,8 +8,6 @@ import { getApiVersion } from './utils/getApiVersion.js';
 import { getGameId } from './utils/getGameId.js';
 import { getGameName } from './utils/getGameName.js';
 import { getCfgSrc } from './utils/getCfgSrc.js';
-import { setDefaultCfg } from './utils/setDefaultCfg.js';
-import { setGameIdCfg } from './utils/setGameIdCfg.js';
 
 var apiVersion = 0;
 var bluetoothDevice;
@@ -25,11 +19,8 @@ var srcLabel = 0;
 var destLabel = 0;
 var bdaddr = '';
 var app_ver = '';
-var latest_ver = '';
 var name = '';
 var gameid = '';
-var gamename = '';
-var current_cfg = 0;
 
 function initInputSelect() {
     var divInputCfg = document.getElementById("divInputCfg");
@@ -54,7 +45,7 @@ function initInputSelect() {
     for (var i = 0; i < 4; i++) {
         var option  = document.createElement("option");
         option.value = i;
-        option.text = "Device " + (i + 1);
+        option.text = "Bank " + (i + 1);
         main.add(option);
     }
     main.id = "inputSelect";
@@ -452,62 +443,6 @@ function initBlueRetroCfg() {
     nbMapping = 1;
 }
 
-function loadGlobalCfg() {
-    return new Promise(function(resolve, reject) {
-        log('Get Global Config CHRC...');
-        brService.getCharacteristic(brUuid[1])
-        .then(chrc => {
-            log('Reading Global Config...');
-            return chrc.readValue();
-        })
-        .then(value => {
-            log('Global Config size: ' + value.byteLength);
-            document.getElementById("systemCfg").value = value.getUint8(0);
-            document.getElementById("multitapCfg").value = value.getUint8(1);
-            if (apiVersion > 0) {
-                document.getElementById("inquiryMode").value = value.getUint8(2);
-            }
-            if (apiVersion > 1) {
-                document.getElementById("banksel").value = value.getUint8(3);
-            }
-            resolve();
-        })
-        .catch(error => {
-            reject(error);
-        });
-    });
-}
-
-function loadOutputCfg(cfgId) {
-    return new Promise(function(resolve, reject) {
-        log('Get Output ' + cfgId + ' CTRL CHRC...');
-        brService.getCharacteristic(brUuid[2])
-        .then(chrc => {
-            log('Set Output ' + cfgId + ' on CTRL chrc...');
-            var outputCtrl = new Uint16Array(1);
-            outputCtrl[0] = Number(cfgId);
-            return chrc.writeValue(outputCtrl);
-        })
-        .then(_ => {
-            log('Get Output ' + cfgId + ' DATA CHRC...');
-            return brService.getCharacteristic(brUuid[3]);
-        })
-        .then(chrc => {
-            log('Reading Output ' + cfgId + ' Config...');
-            return chrc.readValue();
-        })
-        .then(value => {
-            log('Output ' + cfgId + ' Config size: ' + value.byteLength);
-            document.getElementById("outputMode").value = value.getUint8(0);
-            document.getElementById("outputAcc").value = value.getUint8(1);
-            resolve();
-        })
-        .catch(error => {
-            reject(error);
-        });
-    });
-}
-
 function writeReadRecursive(cfg, inputCtrl, ctrl_chrc, data_chrc) {
     return new Promise(function(resolve, reject) {
         log('Set Input Ctrl CHRC... ' + inputCtrl[1]);
@@ -727,42 +662,6 @@ function onDisconnected() {
     document.getElementById("divInputCfg").style.display = 'none';
 }
 
-function swGameIdCfg() {
-    setGameIdCfg(brService)
-    .then(_ => {
-        return getCfgSrc(brService);
-    })
-    .then(value => {
-        current_cfg = value;
-        initBlueRetroCfg();
-        return loadGlobalCfg();
-    })
-    .then(() => {
-        return loadOutputCfg(0);
-    })
-    .then(() => {
-        return loadInputCfg(0);
-    })
-}
-
-function swDefaultCfg() {
-    setDefaultCfg(brService)
-    .then(_ => {
-        return getCfgSrc(brService);
-    })
-    .then(value => {
-        current_cfg = value;
-        initBlueRetroCfg();
-        return loadGlobalCfg();
-    })
-    .then(() => {
-        return loadOutputCfg(0);
-    })
-    .then(() => {
-        return loadInputCfg(0);
-    })
-}
-
 export function btConn() {
     log('Requesting Bluetooth Device...');
     navigator.bluetooth.requestDevice(
@@ -803,21 +702,6 @@ export function btConn() {
         log('Version');
         return getAppVersion(brService);
     })
-    .then(value => {
-        app_ver = value;
-        log('GameID');
-        return getGameId(brService);
-    })
-    .then(value => {
-        gameid = value;
-        log('GameName');
-        return getGameName(gameid);
-    })
-    .then(value => {
-        gamename = value;
-        log('CfgScr');
-        return getCfgSrc(brService);
-    })
     .catch(error => {
         if (error.name == 'NotFoundError'
           || error.name == 'NotSupportedError') {
@@ -826,7 +710,7 @@ export function btConn() {
         throw error;
     })
     .then(value => {
-        current_cfg = value;
+        app_ver = value;
         log("ABI version: " + apiVersion);
         log('Init Cfg DOM...');
         initBlueRetroCfg();
