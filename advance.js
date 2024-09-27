@@ -346,9 +346,16 @@ function initOutputMapping() {
     mappingElement.appendChild(src);
 
     /* Dest */
-    var dest = src.cloneNode(true);
-    dest.setAttribute("class", "dest");
+    var dest = document.createElement("select");
+    dest.setAttribute("style", "max-width:10%;");
     dest.title = "This is the destination button/axis on the wired interface.";
+    for (var i = 0; i < btnList.length; i++) {
+        var option  = document.createElement("option");
+        option.value = i;
+        option.text = btnList[i][destLabel];
+        dest.add(option);
+    }
+    dest.setAttribute("class", "dest");
     mappingElement.appendChild(dest);
 
     /* Dest ID */
