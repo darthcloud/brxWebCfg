@@ -20,7 +20,6 @@ var destLabel = 18;
 var bdaddr = '';
 var app_ver = '';
 var name = '';
-var gameid = '';
 
 function initInputSelect() {
     var divInputCfg = document.getElementById("divInputCfg");
@@ -68,6 +67,9 @@ function initLabelSelect() {
         var option  = document.createElement("option");
         option.value = i;
         option.text = labelName[i];
+        if (i = srcLabel) {
+            option.selected = true
+        }
         main.add(option);
     }
     main.id = "srcLabel";
@@ -90,6 +92,9 @@ function initLabelSelect() {
         var option  = document.createElement("option");
         option.value = i;
         option.text = labelName[i];
+        if (i = destLabel) {
+            option.selected = true
+        }
         main.add(option);
     }
     main.id = "dstLabel";
@@ -131,7 +136,13 @@ function initFirstOutputMapping() {
     label.innerText = 'Dest';
     label.setAttribute("style", "display:block;");
 
-    var dest = src.cloneNode(true);
+    var dest = document.createElement("select");
+    for (var i = 0; i < btnList.length; i++) {
+        var option  = document.createElement("option");
+        option.value = i;
+        option.text = btnList[i][destLabel];
+        src.add(option);
+    }
     dest.setAttribute("class", "dest");
     span.appendChild(label);
     span.appendChild(dest);
