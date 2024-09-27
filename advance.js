@@ -678,10 +678,6 @@ export function btConn() {
         log('Getting BRX Service...');
         return server.getPrimaryService(brUuid[0]);
     })
-    .catch(error => {
-        log(error.name);
-        throw 'Couldn\'t connect to BRX, try again it may take a few tries!';
-    })
     .then(service => {
         brService = service;
         log('API');
@@ -694,20 +690,8 @@ export function btConn() {
     })
     .then(value => {
         bdaddr = value;
-        log('Release');
-        return getLatestRelease();
-    })
-    .then(value => {
-        latest_ver = value;
         log('Version');
         return getAppVersion(brService);
-    })
-    .catch(error => {
-        if (error.name == 'NotFoundError'
-          || error.name == 'NotSupportedError') {
-            return 0;
-        }
-        throw error;
     })
     .then(value => {
         app_ver = value;
@@ -727,7 +711,8 @@ export function btConn() {
         document.getElementById("divInputCfg").style.display = 'block';
     })
     .catch(error => {
-        log('Couldn\'t connect to BRX, try again it may take a few tries! err:' + error);
+        log('Couldn\'t connect to BRX, try again it may take a few tries!');
+        log(error);
     });
 }
 
