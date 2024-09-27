@@ -67,7 +67,7 @@ function initLabelSelect() {
         var option  = document.createElement("option");
         option.value = i;
         option.text = labelName[i];
-        if (i = srcLabel) {
+        if (i == srcLabel) {
             option.selected = true
         }
         main.add(option);
@@ -92,7 +92,7 @@ function initLabelSelect() {
         var option  = document.createElement("option");
         option.value = i;
         option.text = labelName[i];
-        if (i = destLabel) {
+        if (i == destLabel) {
             option.selected = true
         }
         main.add(option);
