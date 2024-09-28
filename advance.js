@@ -1,13 +1,8 @@
-import { brUuid, labelName, btnList, turboMask,
-    scaling, diagScaling, maxOutput, maxMax, maxThres }
+import { brUuid, labelName, btnList, turboMask, maxMax, maxThres }
     from './utils/constants.js';
-import { getLatestRelease } from './utils/getLatestRelease.js';
 import { getAppVersion } from './utils/getAppVersion.js';
 import { getBdAddr } from './utils/getBdAddr.js';
 import { getApiVersion } from './utils/getApiVersion.js';
-import { getGameId } from './utils/getGameId.js';
-import { getGameName } from './utils/getGameName.js';
-import { getCfgSrc } from './utils/getCfgSrc.js';
 
 var apiVersion = 0;
 var bluetoothDevice;
@@ -110,7 +105,7 @@ function initFirstOutputMapping() {
 
     /* Src */
     var span = document.createElement("span");
-    span.setAttribute("style", "max-width:10%;display:inline-block;");
+    span.setAttribute("style", "max-width:30%;display:inline-block;");
     span.title = "This is the source button/axis on the Bluetooth controller";
     var label = document.createElement("label");
     label.innerText = 'Src';
@@ -130,7 +125,7 @@ function initFirstOutputMapping() {
 
     /* Dest */
     span = document.createElement("span");
-    span.setAttribute("style", "max-width:10%;display:inline-block;");
+    span.setAttribute("style", "max-width:30%;display:inline-block;");
     span.title = "This is the destination button/axis on the wired interface.";
     label = document.createElement("label");
     label.innerText = 'Dest';
@@ -146,26 +141,6 @@ function initFirstOutputMapping() {
     dest.setAttribute("class", "dest");
     span.appendChild(label);
     span.appendChild(dest);
-    mappingElement.appendChild(span);
-
-    /* Dest ID */
-    span = document.createElement("span");
-    span.setAttribute("style", "max-width:10%;display:inline-block;");
-    span.title = "This is the ID of the wired interface.";
-    label = document.createElement("label");
-    label.innerText = 'Dest ID';
-    label.setAttribute("style", "display:block;");
-
-    var destId = document.createElement("select");
-    for (var i = 0; i < maxOutput; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = "Output " + (i + 1);
-        destId.add(option);
-    }
-    destId.setAttribute("class", "destId");
-    span.appendChild(label);
-    span.appendChild(destId);
     mappingElement.appendChild(span);
 
     /* Max */
@@ -251,47 +226,6 @@ function initFirstOutputMapping() {
     span.appendChild(turbo);
     mappingElement.appendChild(span);
 
-    /* Scaling */
-    span = document.createElement("span");
-    span.setAttribute("style", "max-width:10%;display:inline-block;");
-    span.title = "Various response curve for scaling. (Only Passthrough and Linear, others TBD)";
-    label = document.createElement("label");
-    label.innerText = 'Scaling';
-    label.setAttribute("style", "display:block;");
-
-    var sca = document.createElement("select");
-    for (var i = 0; i < scaling.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = scaling[i];
-        sca.add(option);
-    }
-    sca.setAttribute("class", "scaling");
-    span.appendChild(label);
-    span.appendChild(sca);
-    mappingElement.appendChild(span);
-
-    /* Scaling diag */
-    span = document.createElement("span");
-    span.setAttribute("style", "max-width:10%;display:inline-block;");
-    span.title = "Diagonal scaling options between joystick type. (TBD Not implemented yet)";
-    label = document.createElement("label");
-    label.innerText = 'Diagonal';
-    label.setAttribute("style", "display:block;");
-
-    var diag = document.createElement("select");
-    diag.setAttribute("style", "max-width:100%;");
-    for (var i = 0; i < diagScaling.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = diagScaling[i];
-        diag.add(option);
-    }
-    diag.setAttribute("class", "diag");
-    span.appendChild(label);
-    span.appendChild(diag);
-    mappingElement.appendChild(span);
-
     /* Add button */
     var addButton = document.createElement("button");
     addButton.innerText = '+';
@@ -334,7 +268,7 @@ function initOutputMapping() {
 
     /* Src */
     var src = document.createElement("select");
-    src.setAttribute("style", "max-width:10%;");
+    src.setAttribute("style", "max-width:30%;");
     src.title = "This is the source button/axis on the Bluetooth controller";
     for (var i = 0; i < btnList.length; i++) {
         var option  = document.createElement("option");
@@ -347,7 +281,7 @@ function initOutputMapping() {
 
     /* Dest */
     var dest = document.createElement("select");
-    dest.setAttribute("style", "max-width:10%;");
+    dest.setAttribute("style", "max-width:30%;");
     dest.title = "This is the destination button/axis on the wired interface.";
     for (var i = 0; i < btnList.length; i++) {
         var option  = document.createElement("option");
@@ -357,19 +291,6 @@ function initOutputMapping() {
     }
     dest.setAttribute("class", "dest");
     mappingElement.appendChild(dest);
-
-    /* Dest ID */
-    var destId = document.createElement("select");
-    destId.setAttribute("style", "max-width:10%;");
-    destId.title = "This is the ID of the wired interface.";
-    for (var i = 0; i < maxOutput; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = "Output " + (i + 1);
-        destId.add(option);
-    }
-    destId.setAttribute("class", "destId");
-    mappingElement.appendChild(destId);
 
     /* Max */
     var max = document.createElement("select");
@@ -387,7 +308,7 @@ function initOutputMapping() {
 
     /* Threshold */
     var thres = document.createElement("select");
-    thres.setAttribute("style", "thres-width:10%;");
+    thres.setAttribute("style", "max-width:10%;");
     thres.title = "If source is an axis and destination is a button, this is the threshold requires on the source axis before the button is pressed.";
     for (var i = 0; i <= maxThres; i += 5) {
         var option  = document.createElement("option");
@@ -401,7 +322,7 @@ function initOutputMapping() {
 
     /* Deadone */
     var dz = document.createElement("select");
-    dz.setAttribute("style", "dz-width:10%;");
+    dz.setAttribute("style", "max-width:10%;");
     dz.title = "This is the axis dead zone around reset value.";
     for (var i = 0; i <= maxMax; i += 5) {
         var option  = document.createElement("option");
@@ -425,32 +346,6 @@ function initOutputMapping() {
     }
     turbo.setAttribute("class", "turbo");
     mappingElement.appendChild(turbo);
-
-    /* Scaling */
-    var sca = document.createElement("select");
-    sca.setAttribute("style", "max-width:10%;");
-    sca.title = "Various response curve for scaling. (Only Passthrough and Linear, others TBD)";
-    for (var i = 0; i < scaling.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = scaling[i];
-        sca.add(option);
-    }
-    sca.setAttribute("class", "scaling");
-    mappingElement.appendChild(sca);
-
-    /* Scaling diag */
-    var diag = document.createElement("select");
-    diag.setAttribute("style", "max-width:10%;");
-    diag.title = "Diagonal scaling options between joystick type. (TBD Not implemented yet)";
-    for (var i = 0; i < diagScaling.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = diagScaling[i];
-        diag.add(option);
-    }
-    diag.setAttribute("class", "diag");
-    mappingElement.appendChild(diag);
 }
 
 function initBlueRetroCfg() {
@@ -540,13 +435,10 @@ function loadInputCfg(cfgId) {
             nbMapping = value[2];
             var src = document.getElementsByClassName("src");
             var dest = document.getElementsByClassName("dest");
-            var destId = document.getElementsByClassName("destId");
             var max = document.getElementsByClassName("max");
             var thres = document.getElementsByClassName("thres");
             var dz = document.getElementsByClassName("dz");
             var turbo = document.getElementsByClassName("turbo");
-            var scaling = document.getElementsByClassName("scaling");
-            var diag = document.getElementsByClassName("diag");
 
             log('Loading Mapping Found: ' + src.length + ' nbMapping: ' + nbMapping + ' cfg: ' + value[2]);
 
@@ -554,13 +446,12 @@ function loadInputCfg(cfgId) {
             for (var i = 0; i < nbMapping; i++) {
                 src[i].value = value[j++];
                 dest[i].value = value[j++];
-                destId[i].value = value[j++];
+                j++;
                 max[i].value = value[j++];
                 thres[i].value = value[j++];
                 dz[i].value = value[j++];
                 turbo[i].value = value[j++];
-                scaling[i].value = value[j] & 0xF;
-                diag[i].value = value[j++] >> 4;
+                j++;
             }
             resolve();
         })
@@ -632,13 +523,10 @@ function saveInput() {
 
     var src = document.getElementsByClassName("src");
     var dest = document.getElementsByClassName("dest");
-    var destId = document.getElementsByClassName("destId");
     var max = document.getElementsByClassName("max");
     var thres = document.getElementsByClassName("thres");
     var dz = document.getElementsByClassName("dz");
     var turbo = document.getElementsByClassName("turbo");
-    var scaling = document.getElementsByClassName("scaling");
-    var diag = document.getElementsByClassName("diag");
 
     var j = 0;
     cfg[j++] = 0;//document.getElementById("mainInput").value;
@@ -648,12 +536,12 @@ function saveInput() {
     for (var i = 0; i < nbMapping; i++) {
         cfg[j++] = src[i].value;
         cfg[j++] = dest[i].value;
-        cfg[j++] = destId[i].value;
+        cfg[j++] = 0
         cfg[j++] = max[i].value;
         cfg[j++] = thres[i].value;
         cfg[j++] = dz[i].value;
         cfg[j++] = turbo[i].value;
-        cfg[j++] = Number(scaling[i].value) | (Number(diag[i].value) << 4);
+        cfg[j++] = 0
     }
 
     return new Promise(function(resolve, reject) {
