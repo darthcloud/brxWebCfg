@@ -88,8 +88,14 @@ function initFirstOutputMapping() {
     label.setAttribute("style", "display:block;");
 
     var src = document.createElement("select");
-    for (var i = 0; i < btnList.length; i++) {
-        if (btnList[i][srcLabel] !== "") {
+    for (var i = 0; i < 32; i++) {
+        if (btnList[i][srcLabel] === "") {
+            var option  = document.createElement("option");
+            option.value = i;
+            option.text = "NA" + i;
+            src.add(option);
+        }
+        else {
             var option  = document.createElement("option");
             option.value = i;
             option.text = btnList[i][srcLabel];
@@ -111,7 +117,13 @@ function initFirstOutputMapping() {
 
     var dest = document.createElement("select");
     for (var i = 0; i < btnList.length; i++) {
-        if (btnList[i][destLabel] !== "") {
+        if (btnList[i][destLabel] === "" && i < 32) {
+            var option  = document.createElement("option");
+            option.value = i;
+            option.text = "NA" + i;
+            src.add(option);
+        }
+        else if (btnList[i][destLabel] !== "" ) {
             var option  = document.createElement("option");
             option.value = i;
             option.text = btnList[i][destLabel];
@@ -250,8 +262,14 @@ function initOutputMapping() {
     var src = document.createElement("select");
     src.setAttribute("style", "max-width:30%;");
     src.title = "This is the source button/axis on the Bluetooth controller";
-    for (var i = 0; i < btnList.length; i++) {
-        if (btnList[i][srcLabel] !== "") {
+    for (var i = 0; i < 32; i++) {
+        if (btnList[i][srcLabel] === "") {
+            var option  = document.createElement("option");
+            option.value = i;
+            option.text = "NA" + i;
+            src.add(option);
+        }
+        else {
             var option  = document.createElement("option");
             option.value = i;
             option.text = btnList[i][srcLabel];
@@ -266,7 +284,13 @@ function initOutputMapping() {
     dest.setAttribute("style", "max-width:30%;");
     dest.title = "This is the destination button/axis on the wired interface.";
     for (var i = 0; i < btnList.length; i++) {
-        if (btnList[i][destLabel] !== "") {
+        if (btnList[i][destLabel] === "" && i < 32) {
+            var option  = document.createElement("option");
+            option.value = i;
+            option.text = "NA" + i;
+            src.add(option);
+        }
+        else if (btnList[i][destLabel] !== "" ) {
             var option  = document.createElement("option");
             option.value = i;
             option.text = btnList[i][destLabel];
@@ -638,8 +662,11 @@ function changeSrcLabel() {
 
     srcLabel = this.value;
 
-    for (var i = 0; i < btnList.length; i++) {
-        if (btnList[i][srcLabel] !== "") {
+    for (var i = 0; i < 32; i++) {
+        if (btnList[i][srcLabel] === "") {
+            str += "<option value=\"" + i + "\">" + "NA" + i + "</option>";
+        }
+        else {
             str += "<option value=\"" + i + "\">" + btnList[i][srcLabel] + "</option>";
         }
     }
