@@ -58,7 +58,7 @@ function initLabelSelect() {
     label.setAttribute("for", "srcLabel");
 
     var main = document.createElement("select");
-    for (var i = 0; i < labelName.length; i++) {
+    for (var i = 0; i < (labelName.length - 1); i++) {
         var option  = document.createElement("option");
         option.value = i;
         option.text = labelName[i];
@@ -73,30 +73,6 @@ function initLabelSelect() {
     div.appendChild(main);
 
     var divInputCfg = document.getElementById("divInputCfg");
-    divInputCfg.appendChild(div);
-
-    var div = document.createElement("div");
-    div.setAttribute("style", "margin-bottom:1em;");
-
-    label = document.createElement("label");
-    label.innerText = 'Dst label: ';
-    label.setAttribute("for", "dstLabel");
-
-    main = document.createElement("select");
-    for (var i = 0; i < labelName.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = labelName[i];
-        if (i == destLabel) {
-            option.selected = true
-        }
-        main.add(option);
-    }
-    main.id = "dstLabel";
-    main.addEventListener("change", changeDstLabel);
-    div.appendChild(label);
-    div.appendChild(main);
-
     divInputCfg.appendChild(div);
 }
 
@@ -113,10 +89,12 @@ function initFirstOutputMapping() {
 
     var src = document.createElement("select");
     for (var i = 0; i < btnList.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = btnList[i][srcLabel];
-        src.add(option);
+        if (btnList[i][srcLabel] !== "") {
+            var option  = document.createElement("option");
+            option.value = i;
+            option.text = btnList[i][srcLabel];
+            src.add(option);
+        }
     }
     src.setAttribute("class", "src");
     span.appendChild(label);
@@ -133,10 +111,12 @@ function initFirstOutputMapping() {
 
     var dest = document.createElement("select");
     for (var i = 0; i < btnList.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = btnList[i][destLabel];
-        dest.add(option);
+        if (btnList[i][destLabel] !== "") {
+            var option  = document.createElement("option");
+            option.value = i;
+            option.text = btnList[i][destLabel];
+            dest.add(option);
+        }
     }
     dest.setAttribute("class", "dest");
     span.appendChild(label);
@@ -271,10 +251,12 @@ function initOutputMapping() {
     src.setAttribute("style", "max-width:30%;");
     src.title = "This is the source button/axis on the Bluetooth controller";
     for (var i = 0; i < btnList.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = btnList[i][srcLabel];
-        src.add(option);
+        if (btnList[i][srcLabel] !== "") {
+            var option  = document.createElement("option");
+            option.value = i;
+            option.text = btnList[i][srcLabel];
+            src.add(option);
+        }
     }
     src.setAttribute("class", "src");
     mappingElement.appendChild(src);
@@ -284,10 +266,12 @@ function initOutputMapping() {
     dest.setAttribute("style", "max-width:30%;");
     dest.title = "This is the destination button/axis on the wired interface.";
     for (var i = 0; i < btnList.length; i++) {
-        var option  = document.createElement("option");
-        option.value = i;
-        option.text = btnList[i][destLabel];
-        dest.add(option);
+        if (btnList[i][destLabel] !== "") {
+            var option  = document.createElement("option");
+            option.value = i;
+            option.text = btnList[i][destLabel];
+            dest.add(option);
+        }
     }
     dest.setAttribute("class", "dest");
     mappingElement.appendChild(dest);
@@ -655,7 +639,9 @@ function changeSrcLabel() {
     srcLabel = this.value;
 
     for (var i = 0; i < btnList.length; i++) {
-        str += "<option value=\"" + i + "\">" + btnList[i][srcLabel] + "</option>";
+        if (btnList[i][srcLabel] !== "") {
+            str += "<option value=\"" + i + "\">" + btnList[i][srcLabel] + "</option>";
+        }
     }
     for (var i = 0; i < select.length; i++) {
         tmp = select[i].value;
@@ -663,22 +649,4 @@ function changeSrcLabel() {
         select[i].value = tmp;
     }
     mappingElement.querySelector('.src').innerHTML = str;
-}
-
-function changeDstLabel() {
-    var select = document.getElementsByClassName("dest");
-    var str = ""
-    var tmp;
-
-    destLabel = this.value;
-
-    for (var i = 0; i < btnList.length; i++) {
-        str += "<option value=\"" + i + "\">" + btnList[i][destLabel] + "</option>";
-    }
-    for (var i = 0; i < select.length; i++) {
-        tmp = select[i].value;
-        select[i].innerHTML = str;
-        select[i].value = tmp;
-    }
-    mappingElement.querySelector('.dest').innerHTML = str;
 }
