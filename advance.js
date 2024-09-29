@@ -121,7 +121,7 @@ function initFirstOutputMapping() {
             var option  = document.createElement("option");
             option.value = i;
             option.text = "NA" + i;
-            src.add(option);
+            dest.add(option);
         }
         else if (btnList[i][destLabel] !== "" ) {
             var option  = document.createElement("option");
@@ -288,7 +288,7 @@ function initOutputMapping() {
             var option  = document.createElement("option");
             option.value = i;
             option.text = "NA" + i;
-            src.add(option);
+            dest.add(option);
         }
         else if (btnList[i][destLabel] !== "" ) {
             var option  = document.createElement("option");
