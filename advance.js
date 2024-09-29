@@ -74,6 +74,8 @@ function initLabelSelect() {
 
     var divInputCfg = document.getElementById("divInputCfg");
     divInputCfg.appendChild(div);
+    var br = document.createElement('br');
+    divInputCfg.appendChild(br);
 }
 
 function initFirstOutputMapping() {
